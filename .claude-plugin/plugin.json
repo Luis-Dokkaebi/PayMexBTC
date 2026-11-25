@@ -1,12 +1,12 @@
 {
-  "name": "stable",
+  "name": "paymexbtc",
   "version": "1.0.0",
   "description": "Stable plugin - agents, skills, commands, hooks, rules and MCP configs imported from ECC, plus caveman skills",
   "author": {
     "name": "Luis-Dokkaebi",
     "url": "https://github.com/Luis-Dokkaebi"
   },
-  "repository": "https://github.com/Luis-Dokkaebi/btcmex",
+  "repository": "https://github.com/Luis-Dokkaebi/PayMexBTC",
   "license": "MIT",
   "keywords": ["claude-code", "agents", "skills", "hooks", "commands", "workflow"],
   "userConfig": {
