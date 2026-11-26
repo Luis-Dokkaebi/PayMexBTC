@@ -38,10 +38,9 @@ p { margin: 0; }
   background: color-mix(in oklch, var(--color-paper) 82%, transparent);
 }
 .wordmark { display: flex; align-items: center; gap: var(--space-xs); text-decoration: none; font-family: var(--font-display); font-weight: 600; font-size: var(--text-md); letter-spacing: -0.02em; white-space: nowrap; padding: 0 var(--space-xs); }
-.wordmark svg { width: 28px; height: 28px; }
+.wordmark__mark { height: 28px; width: auto; aspect-ratio: 576 / 776; flex: none; fill: currentColor; }
 .wordmark b { color: var(--color-accent); font-weight: 700; }
-.wm-arc { fill: none; stroke: var(--color-accent); stroke-width: 3; stroke-linecap: round; }
-.wm-node { fill: var(--color-ink); }
+.topbar__mark { display: none; }
 .nav { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3xs); }
 .nav a {
   display: flex; align-items: center; gap: var(--space-sm);
@@ -371,6 +370,7 @@ th:last-child, td:last-child { padding-right: 0; }
     background: color-mix(in oklch, var(--color-paper) 94%, transparent); backdrop-filter: blur(10px);
   }
   .rail .wordmark, .rail-foot { display: none; }
+  .topbar__mark { display: block; height: 24px; }
   .rail nav { flex: 1; }
   .nav { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .nav a { flex-direction: column; gap: 2px; padding: 6px 2px; font-size: var(--text-2xs); justify-content: center; }

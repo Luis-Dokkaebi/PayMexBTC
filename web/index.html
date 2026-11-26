@@ -11,11 +11,12 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="app.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231c1715'/%3E%3Cpath d='M8 22c3-9 13-9 16 0' fill='none' stroke='%23f08a3c' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='8' cy='22' r='3' fill='%23f2ece6'/%3E%3Ccircle cx='24' cy='22' r='3' fill='%23f2ece6'/%3E%3C/svg%3E">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
+    <symbol id="brand-mark" viewBox="0 0 576 776"><path d="M133 101V67a67 67 0 0 1 134 0v34h38V67a67 67 0 0 1 134 0v34h73a64 64 0 0 1 64 64v201H444V255a22 22 0 0 0-22-22H154a22 22 0 0 0-22 22v268a22 22 0 0 0 22 22h113v164a67 67 0 0 1-134 0v-32H64a64 64 0 0 1-64-64V165a64 64 0 0 1 64-64z"/><rect x="309" y="410" width="212" height="212" rx="20"/></symbol>
     <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="9" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="5" rx="1.5"/><rect x="13.5" y="11.5" width="7" height="9" rx="1.5"/><rect x="3.5" y="15.5" width="7" height="5" rx="1.5"/></symbol>
     <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12h13"/><path d="M12 6l6 6-6 6"/><path d="M20.5 4.5v15"/></symbol>
     <symbol id="i-market" viewBox="0 0 24 24"><path d="M4 19.5h16"/><path d="M7 16V10"/><path d="M12 16V6"/><path d="M17 16v-4"/></symbol>
@@ -34,7 +35,7 @@
 <div class="shell">
   <aside class="rail" aria-label="Navegación principal">
     <a class="wordmark" href="#panel" aria-label="PayMexBTC, inicio">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><path class="wm-arc" d="M7 21c3-9 15-9 18 0"/><circle class="wm-node" cx="7" cy="21" r="3"/><circle class="wm-node" cx="25" cy="21" r="3"/></svg>
+      <svg class="wordmark__mark" aria-hidden="true" focusable="false"><use href="#brand-mark"/></svg>
       <span>PayMex<b>BTC</b></span>
     </a>
     <nav>
@@ -56,6 +57,7 @@
 
   <div class="main">
     <header class="topbar">
+      <svg class="wordmark__mark topbar__mark" role="img" aria-label="PayMexBTC"><use href="#brand-mark"/></svg>
       <h1 id="view-title">Panel</h1>
       <dl class="tickers" aria-label="Precios en vivo">
         <div><dt>BTC/USD</dt><dd id="tk-usd">—</dd></div>
