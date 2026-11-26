@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PayMexBTC</title>
+<meta name="description" content="PayMexBTC: exchange y riel de pagos México–Hong Kong con stablecoin respaldada en Bitcoin.">
+<meta name="theme-color" content="#1a1513">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231c1715'/%3E%3Cpath d='M8 22c3-9 13-9 16 0' fill='none' stroke='%23f08a3c' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='8' cy='22' r='3' fill='%23f2ece6'/%3E%3Ccircle cx='24' cy='22' r='3' fill='%23f2ece6'/%3E%3C/svg%3E">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="9" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="5" rx="1.5"/><rect x="13.5" y="11.5" width="7" height="9" rx="1.5"/><rect x="3.5" y="15.5" width="7" height="5" rx="1.5"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12h13"/><path d="M12 6l6 6-6 6"/><path d="M20.5 4.5v15"/></symbol>
+    <symbol id="i-market" viewBox="0 0 24 24"><path d="M4 19.5h16"/><path d="M7 16V10"/><path d="M12 16V6"/><path d="M17 16v-4"/></symbol>
+    <symbol id="i-vault" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M12 8.5V7M12 17v-1.5M15.5 12H17M7 12h1.5"/></symbol>
+    <symbol id="i-engine" viewBox="0 0 24 24"><path d="M3.5 17c2.5 0 3-10 5.5-10s3 10 5.5 10 3-6 5.5-6"/><circle cx="20" cy="11" r="1.2"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8.5 6.5h12M8.5 12h12M8.5 17.5h12"/><circle cx="4.5" cy="6.5" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="17.5" r="1"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4.5M12 17.2v.3"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></symbol>
+    <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7 10.5l5 5 5-5"/><path d="M5 19.5h14"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></symbol>
+  </defs>
+</svg>
+
+<div class="shell">
+  <aside class="rail" aria-label="Navegación principal">
+    <a class="wordmark" href="#panel" aria-label="PayMexBTC, inicio">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path class="wm-arc" d="M7 21c3-9 15-9 18 0"/><circle class="wm-node" cx="7" cy="21" r="3"/><circle class="wm-node" cx="25" cy="21" r="3"/></svg>
+      <span>PayMex<b>BTC</b></span>
+    </a>
+    <nav>
+      <ul class="nav">
+        <li><a href="#panel" data-nav="panel"><svg class="ic"><use href="#i-panel"/></svg><span>Panel</span></a></li>
+        <li><a href="#enviar" data-nav="enviar"><svg class="ic"><use href="#i-send"/></svg><span>Enviar</span></a></li>
+        <li><a href="#mercado" data-nav="mercado"><svg class="ic"><use href="#i-market"/></svg><span>Mercado</span></a></li>
+        <li><a href="#reservas" data-nav="reservas"><svg class="ic"><use href="#i-vault"/></svg><span>Reservas</span></a></li>
+        <li><a href="#motores" data-nav="motores"><svg class="ic"><use href="#i-engine"/></svg><span>Motores</span></a></li>
+        <li><a href="#actividad" data-nav="actividad"><svg class="ic"><use href="#i-list"/></svg><span>Actividad</span></a></li>
+      </ul>
+    </nav>
+    <div class="rail-foot">
+      <div class="clock"><span>CDMX</span><b id="clk-mx">--:--</b></div>
+      <div class="clock"><span>Hong Kong</span><b id="clk-hk">--:--</b></div>
+      <p class="rail-line" id="feed-src">Conectando referencia de precio…</p>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <h1 id="view-title">Panel</h1>
+      <dl class="tickers" aria-label="Precios en vivo">
+        <div><dt>BTC/USD</dt><dd id="tk-usd">—</dd></div>
+        <div><dt>BTC/MXN</dt><dd id="tk-mxn">—</dd></div>
+        <div><dt>BTC/HKD</dt><dd id="tk-hkd">—</dd></div>
+        <div><dt>PMX</dt><dd id="tk-pmx">—</dd></div>
+      </dl>
+      <span class="status" id="st-regime" data-s="good"><svg class="ic"><use href="#i-check"/></svg><span>Régimen —</span></span>
+      <span class="status" id="st-oracle" data-s="good"><svg class="ic"><use href="#i-check"/></svg><span>Oráculo —</span></span>
+    </header>
+
+    <main id="views">
+
+      <!-- ================= PANEL ================= -->
+      <section class="view" data-view="panel" aria-labelledby="view-title">
+        <div class="tiles">
+          <article class="tile">
+            <h2>Precio BTC · oráculo</h2>
+            <p class="big" id="p-price">—</p>
+            <p class="sub" id="p-price-ci">IC 95 % —</p>
+          </article>
+          <article class="tile">
+            <h2>Paridad PMX</h2>
+            <p class="big" id="p-peg">—</p>
+            <p class="sub" id="p-peg-sub">1 PMX = 1 USD · desviación —</p>
+          </article>
+          <article class="tile">
+            <h2>Colateralización</h2>
+            <p class="big" id="p-cr">—</p>
+            <div class="meter" aria-hidden="true"><span id="p-cr-fill"></span><i id="p-cr-mcr"></i></div>
+            <p class="sub" id="p-cr-sub">MCR exigido —</p>
+          </article>
+          <article class="tile">
+            <h2>Régimen de mercado</h2>
+            <p class="big" id="p-reg">—</p>
+            <div class="probs" id="p-reg-probs"></div>
+          </article>
+        </div>
+
+        <div class="grid-2">
+          <article class="card span-2">
+            <header class="card-h">
+              <div>
+                <h2>BTC/USD, últimas 6 horas</h2>
+                <p class="sub">Velas de 1 minuto. La franja inferior es el estado más probable del modelo de régimen.</p>
+              </div>
+              <div class="legend" id="p-strip-legend"></div>
+            </header>
+            <div class="chart" id="ch-price" style="--h: 260px"></div>
+          </article>
+
+          <article class="card">
+            <header class="card-h"><div><h2>Salud de la reserva</h2><p class="sub">Indicadores que vigila el comité de riesgo.</p></div></header>
+            <div class="table-wrap">
+              <table class="kpi" id="kpi-table">
+                <thead><tr><th scope="col">Indicador</th><th scope="col">Fórmula</th><th scope="col" class="num">Valor</th><th scope="col">Estado</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <header class="card-h">
+              <div><h2>Actividad reciente</h2><p class="sub">Transferencias y órdenes de esta cuenta.</p></div>
+              <a class="btn small" href="#enviar">Nueva transferencia</a>
+            </header>
+            <ul class="feed" id="p-feed"></ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- ================= ENVIAR ================= -->
+      <section class="view" data-view="enviar" hidden>
+        <div class="send">
+          <form class="card form" id="send-form" novalidate>
+            <header class="card-h"><div><h2>Pago México → Hong Kong</h2><p class="sub">Depositas MXN por SPEI; el beneficiario recibe HKD por FPS.</p></div></header>
+
+            <fieldset>
+              <legend>Origen en México</legend>
+              <div class="field">
+                <label for="f-sender">Remitente</label>
+                <input id="f-sender" name="sender" autocomplete="organization" required>
+              </div>
+              <div class="row2">
+                <div class="field">
+                  <label for="f-rfc">RFC</label>
+                  <input id="f-rfc" name="rfc" class="mono" maxlength="13" autocapitalize="characters" spellcheck="false" required>
+                  <p class="help" data-for="f-rfc"></p>
+                </div>
+                <div class="field">
+                  <label for="f-clabe">CLABE de origen</label>
+                  <input id="f-clabe" name="clabe" class="mono" inputmode="numeric" maxlength="18" spellcheck="false" required>
+                  <p class="help" data-for="f-clabe"></p>
+                </div>
+              </div>
+              <div class="field">
+                <label for="f-amount">Monto a enviar</label>
+                <div class="affix"><input id="f-amount" name="amount" inputmode="decimal" required><span>MXN</span></div>
+                <p class="help" data-for="f-amount"></p>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Destino en Hong Kong</legend>
+              <div class="field">
+                <label for="f-benef">Beneficiario</label>
+                <input id="f-benef" name="benef" required>
+              </div>
+              <div class="row2">
+                <div class="field">
+                  <label for="f-fps">FPS ID o teléfono +852</label>
+                  <input id="f-fps" name="fps" class="mono" spellcheck="false" required>
+                  <p class="help" data-for="f-fps"></p>
+                </div>
+                <div class="field">
+                  <label for="f-bank">Banco receptor</label>
+                  <select id="f-bank" name="bank">
+                    <option>HSBC Hong Kong</option>
+                    <option>Bank of China (Hong Kong)</option>
+                    <option>Hang Seng Bank</option>
+                    <option>Standard Chartered HK</option>
+                    <option>DBS Bank (Hong Kong)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="f-purpose">Concepto</label>
+                <select id="f-purpose" name="purpose">
+                  <option>Pago a proveedor (importación)</option>
+                  <option>Cobro de exportación</option>
+                  <option>Servicios profesionales</option>
+                  <option>Remesa familiar</option>
+                </select>
+              </div>
+            </fieldset>
+
+            <div class="form-actions">
+              <button class="btn ghost" type="button" id="f-fill">Llenar con otro cliente</button>
+              <button class="btn primary" type="submit" id="f-submit">Enviar ahora</button>
+            </div>
+          </form>
+
+          <aside class="card quote" aria-live="polite">
+            <header class="card-h"><div><h2>Cotización</h2><p class="sub" id="q-valid">Se actualiza cada segundo con el oráculo.</p></div></header>
+            <p class="q-out"><span id="q-hkd">—</span> <small>HKD</small></p>
+            <p class="sub" id="q-rate">—</p>
+            <ol class="route" id="q-route"></ol>
+            <dl class="fees" id="q-fees"></dl>
+          </aside>
+        </div>
+
+        <article class="card pipeline" id="pipe" hidden>
+          <header class="card-h">
+            <div><h2 id="pipe-title">Transferencia en curso</h2><p class="sub" id="pipe-sub">—</p></div>
+            <div class="pipe-actions">
+              <button class="btn small" type="button" id="pipe-receipt" hidden><svg class="ic"><use href="#i-dl"/></svg>Comprobante</button>
+              <button class="btn small ghost" type="button" id="pipe-new" hidden>Otra transferencia</button>
+            </div>
+          </header>
+          <ol class="steps" id="pipe-steps"></ol>
+        </article>
+      </section>
+
+      <!-- ================= MERCADO ================= -->
+      <section class="view" data-view="mercado" hidden>
+        <div class="pairs" role="tablist" aria-label="Pares" id="pair-tabs"></div>
+        <div class="market">
+          <article class="card">
+            <header class="card-h"><div><h2 id="ob-title">Libro de órdenes</h2><p class="sub" id="ob-sub">—</p></div></header>
+            <div class="book" id="book"></div>
+          </article>
+          <article class="card">
+            <header class="card-h"><div><h2>Operar</h2><p class="sub" id="tk-sub">Orden a mercado contra el libro.</p></div></header>
+            <form class="ticket" id="ticket" novalidate>
+              <div class="seg" role="radiogroup" aria-label="Lado">
+                <label><input type="radio" name="side" value="buy" checked><span>Comprar</span></label>
+                <label><input type="radio" name="side" value="sell"><span>Vender</span></label>
+              </div>
+              <div class="field">
+                <label for="t-qty" id="t-qty-l">Cantidad</label>
+                <div class="affix"><input id="t-qty" inputmode="decimal" value="5000"><span id="t-qty-u">PMX</span></div>
+                <p class="help" data-for="t-qty"></p>
+              </div>
+              <dl class="fees" id="t-est"></dl>
+              <button class="btn primary wide" type="submit" id="t-go">Comprar</button>
+            </form>
+            <div class="inv">
+              <h3>Inventario del creador de mercado</h3>
+              <div class="inv-bar" aria-hidden="true"><span id="inv-fill"></span></div>
+              <p class="sub" id="inv-sub">—</p>
+            </div>
+          </article>
+          <article class="card">
+            <header class="card-h"><div><h2>Operaciones</h2><p class="sub">Últimas ejecuciones del par.</p></div></header>
+            <div class="table-wrap tape-wrap">
+              <table class="tape"><thead><tr><th scope="col">Hora</th><th scope="col" class="num">Precio</th><th scope="col" class="num">Cantidad</th></tr></thead><tbody id="tape"></tbody></table>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ================= RESERVAS ================= -->
+      <section class="view" data-view="reservas" hidden>
+        <div class="tiles">
+          <article class="tile"><h2>Reserva total</h2><p class="big" id="r-btc">—</p><p class="sub" id="r-btc-usd">—</p></article>
+          <article class="tile"><h2>PMX en circulación</h2><p class="big" id="r-supply">—</p><p class="sub">Pasivo en USD, 1:1</p></article>
+          <article class="tile"><h2>Excedente de colateral</h2><p class="big" id="r-surplus">—</p><p class="sub" id="r-surplus-sub">—</p></article>
+          <article class="tile"><h2>Cobertura corta</h2><p class="big" id="r-hedge">—</p><p class="sub" id="r-hedge-sub">—</p></article>
+        </div>
+
+        <article class="card">
+          <header class="card-h"><div><h2>Distribución de la bóveda</h2><p class="sub">Asignación vigente del motor de liquidez (medio Kelly con restricción de cero ruina).</p></div><button class="btn small" type="button" id="r-rebal">Ejecutar rebalanceo</button></header>
+          <div class="segbar" id="r-seg"></div>
+          <div class="legend" id="r-seg-legend"></div>
+        </article>
+
+        <div class="grid-2">
+          <article class="card">
+            <header class="card-h"><div><h2>Direcciones de custodia</h2><p class="sub">Saldos por bóveda. Fría en multifirma 3 de 5.</p></div></header>
+            <div class="table-wrap">
+              <table class="addr"><thead><tr><th scope="col">Bóveda</th><th scope="col">Dirección</th><th scope="col" class="num">BTC</th></tr></thead><tbody id="r-addr"></tbody></table>
+            </div>
+          </article>
+          <article class="card">
+            <header class="card-h"><div><h2>Prueba de pasivos</h2><p class="sub">Árbol de Merkle de los saldos PMX. Cualquier tenedor verifica su hoja contra la raíz.</p></div><button class="btn small" type="button" id="r-merkle-go">Recalcular</button></header>
+            <dl class="proof" id="r-proof"></dl>
+          </article>
+        </div>
+      </section>
+
+      <!-- ================= MOTORES ================= -->
+      <section class="view" data-view="motores" hidden>
+        <div class="tabs" role="tablist" aria-label="Motores cuantitativos">
+          <button role="tab" id="tab-hmm" aria-controls="eng-hmm" aria-selected="true">Régimen</button>
+          <button role="tab" id="tab-ito" aria-controls="eng-ito" aria-selected="false" tabindex="-1">Cobertura</button>
+          <button role="tab" id="tab-kelly" aria-controls="eng-kelly" aria-selected="false" tabindex="-1">Liquidez</button>
+          <button role="tab" id="tab-bayes" aria-controls="eng-bayes" aria-selected="false" tabindex="-1">Oráculo</button>
+          <button role="tab" id="tab-lln" aria-controls="eng-lln" aria-selected="false" tabindex="-1">Market making</button>
+        </div>
+
+        <!-- HMM -->
+        <div class="engine" role="tabpanel" id="eng-hmm" aria-labelledby="tab-hmm">
+          <div class="eng-head">
+            <h2>Colateralización dinámica por régimen</h2>
+            <p>Un modelo oculto de Markov de tres estados, entrenado con Baum-Welch sobre retornos logarítmicos y volumen de BTC, fija el ratio mínimo de colateralización para acuñar PMX.</p>
+          </div>
+          <div class="grid-2">
+            <article class="card">
+              <header class="card-h"><div><h2>Probabilidad filtrada por estado</h2><p class="sub" id="hmm-sub">—</p></div><div class="legend" id="hmm-legend"></div></header>
+              <div class="chart" id="ch-hmm" style="--h: 220px"></div>
+              <div class="eng-actions">
+                <button class="btn" type="button" id="hmm-shock"><svg class="ic"><use href="#i-bolt"/></svg>Aplicar choque de −8 %</button>
+                <button class="btn ghost" type="button" id="hmm-retrain">Reentrenar ahora</button>
+              </div>
+            </article>
+            <article class="card">
+              <header class="card-h"><div><h2>Parámetros estimados</h2><p class="sub" id="hmm-ll">—</p></div></header>
+              <div class="table-wrap"><table class="mat" id="hmm-A"></table></div>
+              <div class="table-wrap"><table class="mat" id="hmm-B"></table></div>
+              <p class="formula">MCR<sub>t</sub> = Σ<sub>i</sub> P(s<sub>t</sub> = i | o<sub>1:t</sub>) · MCR<sub>i</sub> = <b id="hmm-mcr">—</b></p>
+            </article>
+          </div>
+          <article class="card">
+            <header class="card-h">
+              <div><h2>Escenario de estrés de 24 horas</h2><p class="sub">Trayectoria de 1,440 minutos con cascada de liquidaciones. El motor filtra cada minuto y pausa la acuñación cuando el colateral cae bajo el MCR.</p></div>
+              <div class="eng-actions inline">
+                <label class="sel"><span class="vh">Magnitud de la caída</span>
+                  <select id="stress-mag"><option value="0.22">Caída de 22 %</option><option value="0.35">Caída de 35 %</option><option value="0.5">Caída de 50 %</option></select>
+                </label>
+                <button class="btn" type="button" id="stress-go">Correr escenario</button>
+              </div>
+            </header>
+            <div class="legend" id="stress-legend"></div>
+            <div class="chart" id="ch-stress" style="--h: 240px"></div>
+            <dl class="facts" id="stress-facts"></dl>
+          </article>
+          <details class="proof-box">
+            <summary>Fundamento matemático</summary>
+            <p class="q">¿Por qué el entrenamiento del modelo de régimen siempre mejora o mantiene su ajuste a los datos?</p>
+            <p><b>Teorema (monotonía de Baum-Welch).</b> Sea L(θ) = log P(o<sub>1:T</sub> | θ). Si θ<sub>k+1</sub> = argmax<sub>θ</sub> Q(θ | θ<sub>k</sub>), con Q(θ | θ<sub>k</sub>) = E<sub>s ~ P(·|o, θ<sub>k</sub>)</sub>[log P(o, s | θ)], entonces L(θ<sub>k+1</sub>) ≥ L(θ<sub>k</sub>).</p>
+            <p><b>Demostración.</b> Para cualquier θ, L(θ) = Q(θ | θ<sub>k</sub>) + H(θ | θ<sub>k</sub>), donde H(θ | θ<sub>k</sub>) = −E<sub>θ<sub>k</sub></sub>[log P(s | o, θ)]. Por la desigualdad de Gibbs, H(θ | θ<sub>k</sub>) ≥ H(θ<sub>k</sub> | θ<sub>k</sub>). Entonces L(θ<sub>k+1</sub>) = Q(θ<sub>k+1</sub> | θ<sub>k</sub>) + H(θ<sub>k+1</sub> | θ<sub>k</sub>) ≥ Q(θ<sub>k</sub> | θ<sub>k</sub>) + H(θ<sub>k</sub> | θ<sub>k</sub>) = L(θ<sub>k</sub>). ∎</p>
+          </details>
+        </div>
+
+        <!-- ITO -->
+        <div class="engine" role="tabpanel" id="eng-ito" aria-labelledby="tab-ito" hidden>
+          <div class="eng-head">
+            <h2>Cobertura delta-neutral con perpetuos inversos</h2>
+            <p>La bóveda guarda BTC nativo. Un corto en contratos perpetuos inversos de 100 USD, con nocional igual al PMX en circulación, fija en dólares el valor que respalda cada PMX.</p>
+          </div>
+          <div class="tiles">
+            <article class="tile"><h2>Nocional corto N</h2><p class="big" id="ito-n">—</p><p class="sub" id="ito-n-sub">—</p></article>
+            <article class="tile"><h2>Δ residual</h2><p class="big" id="ito-delta">—</p><p class="sub">∂V/∂S = B − N / S̄₀ (excedente sin cubrir)</p></article>
+            <article class="tile"><h2>Margen en BTC</h2><p class="big" id="ito-margin">—</p><p class="sub" id="ito-margin-sub">—</p></article>
+            <article class="tile"><h2>Tasa de fondeo 8 h</h2><p class="big" id="ito-funding">—</p><p class="sub" id="ito-funding-sub">—</p></article>
+          </div>
+          <div class="grid-2">
+            <article class="card span-2">
+              <header class="card-h">
+                <div><h2>Colateral a 30 días: con y sin cobertura</h2><p class="sub" id="ito-mc-sub">Monte Carlo con difusión de saltos de Merton.</p></div>
+                <div class="eng-actions inline">
+                  <button class="btn" type="button" id="ito-run">Correr 4,000 trayectorias</button>
+                </div>
+              </header>
+              <div class="mc-params" id="ito-params"></div>
+              <div class="multiples">
+                <figure><figcaption>Sin cobertura</figcaption><div class="chart" id="ch-ito-a" style="--h: 180px"></div></figure>
+                <figure><figcaption>Con cobertura</figcaption><div class="chart" id="ch-ito-b" style="--h: 180px"></div></figure>
+              </div>
+              <dl class="facts" id="ito-facts"></dl>
+            </article>
+            <article class="card span-2">
+              <header class="card-h"><div><h2>Órdenes de cobertura</h2><p class="sub">Contratos abiertos y cerrados por cada bloque de depósito o redención. Si el último minuto tuvo un salto mayor a 3σ, la orden se fracciona.</p></div></header>
+              <div class="table-wrap"><table class="orders"><thead><tr><th scope="col">Hora</th><th scope="col">Origen</th><th scope="col" class="num">ΔN (USD)</th><th scope="col" class="num">Contratos</th><th scope="col" class="num">Tramos</th><th scope="col" class="num">Precio medio</th><th scope="col" class="num">Deslizamiento</th></tr></thead><tbody id="ito-orders"></tbody></table></div>
+            </article>
+          </div>
+          <details class="proof-box">
+            <summary>Fundamento matemático</summary>
+            <p class="q">¿Por qué el corto inverso con nocional igual al pasivo mantiene la paridad aunque BTC caiga?</p>
+            <p><b>Teorema.</b> Sea B la reserva en BTC, L el PMX en circulación (USD) y un corto inverso de nocional N = L abierto a S₀ con B·S₀ ≥ L. Entonces el valor en USD de la bóveda V(S) = L + S·(B − L/S₀) cumple V(S) ≥ L para todo S ≥ 0, sin contar fondeo ni comisiones.</p>
+            <p><b>Demostración.</b> El P&amp;L en BTC de un corto inverso es N(1/S − 1/S₀). En USD vale S·N(1/S − 1/S₀) = N − N·S/S₀. Sumando la reserva, V(S) = S·B + L − L·S/S₀ = L + S(B − L/S₀). Como B ≥ L/S₀ y S ≥ 0, el segundo término es no negativo. ∎</p>
+            <p class="q">¿Por qué el margen en BTC necesita rebalanceo continuo?</p>
+            <p><b>Teorema (Itô sobre 1/S).</b> Si dS = μS dt + σS dW, entonces d(1/S) = (1/S)[(σ² − μ) dt − σ dW].</p>
+            <p><b>Demostración.</b> Con f(S) = 1/S, f′ = −1/S² y f″ = 2/S³. El lema de Itô da df = f′dS + ½f″(dS)² = −(μS dt + σS dW)/S² + σ²S² dt/S³ = (1/S)[(σ² − μ)dt − σ dW]. El término σ² es una deriva de convexidad: el requisito de margen en BTC, N/(apalancamiento·S), crece en promedio aun con μ = 0. ∎</p>
+          </details>
+        </div>
+
+        <!-- KELLY -->
+        <div class="engine" role="tabpanel" id="eng-kelly" aria-labelledby="tab-kelly" hidden>
+          <div class="eng-head">
+            <h2>Tesorería del corredor México–Hong Kong</h2>
+            <p>Medio Kelly multivariado reparte la reserva entre liquidez caliente de cada lado, margen de derivados y bóveda fría, con pisos de cero ruina calculados sobre la demanda de las próximas dos horas.</p>
+          </div>
+          <div class="grid-2">
+            <article class="card span-2">
+              <header class="card-h"><div><h2>Demanda esperada de liquidación por hora</h2><p class="sub">Hora de CDMX. Los picos siguen el horario bancario de cada país (HKT = CDMX + 14 h).</p></div><div class="legend" id="kelly-flow-legend"></div></header>
+              <div class="chart" id="ch-flow" style="--h: 200px"></div>
+            </article>
+            <article class="card">
+              <header class="card-h"><div><h2>Asignación</h2><p class="sub" id="kelly-sub">—</p></div></header>
+              <div class="table-wrap"><table class="alloc"><thead><tr><th scope="col">Bóveda</th><th scope="col" class="num">Medio Kelly</th><th scope="col" class="num">Piso</th><th scope="col" class="num">Objetivo</th><th scope="col" class="num">Actual</th></tr></thead><tbody id="kelly-alloc"></tbody></table></div>
+              <div class="sliders">
+                <label>Rendimiento anual de la liquidez caliente <output id="k-mu-o"></output><input type="range" id="k-mu" min="2" max="30" step="0.5" value="11"></label>
+                <label>Volatilidad de pérdida operativa <output id="k-sig-o"></output><input type="range" id="k-sig" min="10" max="80" step="1" value="38"></label>
+                <label>Tiempo de recarga desde frío <output id="k-ref-o"></output><input type="range" id="k-ref" min="1" max="6" step="0.5" value="2"></label>
+                <label>Volumen diario esperado del corredor <output id="k-d-o"></output><input type="range" id="k-d" min="0.5" max="12" step="0.5" value="3"></label>
+              </div>
+            </article>
+            <article class="card">
+              <header class="card-h"><div><h2>Capacidad instantánea</h2><p class="sub">Orden máxima que se garantiza ahora sin riesgo de iliquidez.</p></div></header>
+              <dl class="facts tall" id="kelly-cap"></dl>
+              <h3 class="h3">Reglas de rebalanceo</h3>
+              <ul class="rules" id="kelly-rules"></ul>
+            </article>
+          </div>
+          <details class="proof-box">
+            <summary>Fundamento matemático</summary>
+            <p class="q">¿Por qué usar medio Kelly y no Kelly completo para la liquidez caliente?</p>
+            <p><b>Teorema.</b> Con crecimiento logarítmico g(f) = r + f(μ − r) − ½f²σ², el óptimo es f* = (μ − r)/σ² (en varias bóvedas, f* = Σ⁻¹(μ − r)). La mitad f*/2 conserva 3/4 del crecimiento excedente con la mitad de la volatilidad.</p>
+            <p><b>Demostración.</b> g′(f) = (μ − r) − fσ² = 0 da f*, y g(f*) − r = (μ − r)²/(2σ²). En f*/2: (f*/2)(μ − r) − ½(f*/2)²σ² = (μ − r)²/(2σ²) − (μ − r)²/(8σ²) = ¾ · (μ − r)²/(2σ²). La volatilidad del capital es fσ, que se reduce a la mitad. ∎</p>
+          </details>
+        </div>
+
+        <!-- BAYES -->
+        <div class="engine" role="tabpanel" id="eng-bayes" aria-labelledby="tab-bayes" hidden>
+          <div class="eng-head">
+            <h2>Oráculo de precios bayesiano</h2>
+            <p>Seis fuentes de liquidez se combinan en una posterior normal ponderada por profundidad de libro. Una mezcla con componente atípica aísla las fuentes manipuladas; si la incertidumbre crece, el disyuntor pausa redenciones.</p>
+          </div>
+          <div class="tiles">
+            <article class="tile"><h2>Media posterior</h2><p class="big" id="by-mu">—</p><p class="sub" id="by-ci">—</p></article>
+            <article class="tile"><h2>Desviación posterior</h2><p class="big" id="by-sd">—</p><p class="sub">Umbral del disyuntor: 20 pb o menos de 3 fuentes</p></article>
+            <article class="tile"><h2>Tiempo de cálculo</h2><p class="big" id="by-lat">—</p><p class="sub">Objetivo: menos de 50 ms</p></article>
+            <article class="tile"><h2>Disyuntor</h2><p class="big" id="by-brk">—</p><p class="sub" id="by-brk-sub">—</p></article>
+          </div>
+          <div class="grid-2">
+            <article class="card span-2">
+              <header class="card-h">
+                <div><h2>Fuentes</h2><p class="sub">Peso w<sub>i</sub> = probabilidad posterior de que la fuente no sea atípica.</p></div>
+                <div class="eng-actions inline">
+                  <button class="btn" type="button" id="by-flash"><svg class="ic"><use href="#i-bolt"/></svg>Flash crash en libro MXN</button>
+                  <button class="btn" type="button" id="by-wash">Wash trading en pool</button>
+                  <button class="btn ghost" type="button" id="by-drop">Perder 4 fuentes</button>
+                </div>
+              </header>
+              <div class="table-wrap"><table class="src"><thead><tr><th scope="col">Fuente</th><th scope="col" class="num">Precio USD</th><th scope="col" class="num">Profundidad ±1 %</th><th scope="col" class="num">Residuo</th><th scope="col">Peso</th><th scope="col">Estado</th></tr></thead><tbody id="by-src"></tbody></table></div>
+            </article>
+            <article class="card span-2">
+              <header class="card-h"><div><h2>Payload firmado</h2><p class="sub" id="by-key">—</p></div><span class="status" id="by-verify" data-s="warn"><svg class="ic"><use href="#i-pause"/></svg><span>Firmando…</span></span></header>
+              <pre class="payload" id="by-payload" tabindex="0"></pre>
+            </article>
+          </div>
+          <details class="proof-box">
+            <summary>Fundamento matemático</summary>
+            <p class="q">¿Cómo se combina el precio de varias fuentes y por qué una fuente manipulada deja de influir?</p>
+            <p><b>Teorema.</b> Con prior θ ~ N(μ₀, τ₀²) y observaciones independientes x<sub>i</sub> ~ N(θ, σ<sub>i</sub>²) con pesos w<sub>i</sub> ∈ [0, 1], la posterior es N(μ<sub>n</sub>, τ<sub>n</sub>²) con 1/τ<sub>n</sub>² = 1/τ₀² + Σ w<sub>i</sub>/σ<sub>i</sub>² y μ<sub>n</sub> = τ<sub>n</sub>²(μ₀/τ₀² + Σ w<sub>i</sub>x<sub>i</sub>/σ<sub>i</sub>²). Además ∂μ<sub>n</sub>/∂x<sub>i</sub> = τ<sub>n</sub>² w<sub>i</sub>/σ<sub>i</sub>², que tiende a 0 cuando w<sub>i</sub> → 0.</p>
+            <p><b>Demostración.</b> El logaritmo de prior × verosimilitud es −(θ − μ₀)²/(2τ₀²) − Σ w<sub>i</sub>(θ − x<sub>i</sub>)²/(2σ<sub>i</sub>²) + c, cuadrático en θ. El coeficiente de −θ²/2 es la precisión 1/τ<sub>n</sub>²; completar el cuadrado da la media μ<sub>n</sub>. Derivar μ<sub>n</sub> respecto a x<sub>i</sub> da la sensibilidad. Bajo la mezcla (1 − ε)N(θ, σ<sub>i</sub>²) + εN(θ, s²), w<sub>i</sub> decae como exp(−r<sub>i</sub>²/2σ<sub>i</sub>²) en el residuo r<sub>i</sub>, así que el peso de una fuente lejana se anula. ∎</p>
+          </details>
+        </div>
+
+        <!-- LLN -->
+        <div class="engine" role="tabpanel" id="eng-lln" aria-labelledby="tab-lln" hidden>
+          <div class="eng-head">
+            <h2>Market making y ley de los grandes números</h2>
+            <p>El motor cotiza PMX con Avellaneda-Stoikov y gana un margen pequeño por operación. Con miles de operaciones, el resultado medio converge a una esperanza positiva aun cuando muchas operaciones individuales pierden.</p>
+          </div>
+          <div class="tiles">
+            <article class="tile"><h2>E[X] por operación</h2><p class="big" id="ln-mu">—</p><p class="sub" id="ln-mu-sub">—</p></article>
+            <article class="tile"><h2>Media observada</h2><p class="big" id="ln-mean">—</p><p class="sub" id="ln-n">—</p></article>
+            <article class="tile"><h2>P(resultado total ≤ 0)</h2><p class="big" id="ln-p">—</p><p class="sub" id="ln-p-sub">—</p></article>
+            <article class="tile"><h2>Operaciones para P &lt; 1 %</h2><p class="big" id="ln-nstar">—</p><p class="sub">Cota de Cantelli, sin suponer normalidad</p></article>
+          </div>
+          <div class="grid-2">
+            <article class="card span-2">
+              <header class="card-h"><div><h2>Convergencia de la media por operación</h2><p class="sub">Banda: μ̂ ± 1.96 σ̂/√n. La línea punteada es E[X] teórico.</p></div><div class="legend" id="ln-legend"></div></header>
+              <div class="chart" id="ch-lln" style="--h: 240px"></div>
+              <div class="eng-actions">
+                <button class="btn" type="button" id="ln-burst">Procesar 5,000 operaciones</button>
+                <button class="btn ghost" type="button" id="ln-reset">Reiniciar sesión</button>
+              </div>
+            </article>
+            <article class="card">
+              <header class="card-h"><div><h2>Cotización Avellaneda-Stoikov</h2><p class="sub">PMX/MXN</p></div></header>
+              <dl class="facts tall" id="ln-as"></dl>
+            </article>
+            <article class="card">
+              <header class="card-h"><div><h2>Economía por operación</h2><p class="sub">Costos que el margen debe cubrir.</p></div></header>
+              <dl class="facts tall" id="ln-econ"></dl>
+            </article>
+          </div>
+          <details class="proof-box">
+            <summary>Fundamento matemático</summary>
+            <p class="q">¿Por qué el negocio es rentable aunque una fracción grande de operaciones individuales pierda dinero?</p>
+            <p><b>Teorema.</b> Sean X₁, X₂, … independientes con E[X] = μ &gt; 0 y Var(X) = σ². Entonces X̄<sub>n</sub> → μ casi seguramente, y P(S<sub>n</sub> ≤ 0) ≤ σ²/(σ² + nμ²) para todo n.</p>
+            <p><b>Demostración.</b> La convergencia es la ley fuerte de los grandes números. Para la cota, S<sub>n</sub> tiene media nμ y varianza nσ². La desigualdad de Cantelli, P(Y − E[Y] ≤ −a) ≤ Var(Y)/(Var(Y) + a²), con Y = S<sub>n</sub> y a = nμ, da P(S<sub>n</sub> ≤ 0) ≤ nσ²/(nσ² + n²μ²) = σ²/(σ² + nμ²), que tiende a 0 como 1/n. ∎</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- ================= ACTIVIDAD ================= -->
+      <section class="view" data-view="actividad" hidden>
+        <article class="card">
+          <header class="card-h"><div><h2>Historial</h2><p class="sub" id="act-sub">—</p></div><button class="btn small ghost" type="button" id="act-export"><svg class="ic"><use href="#i-dl"/></svg>Exportar JSON</button></header>
+          <div class="table-wrap">
+            <table class="act"><thead><tr><th scope="col">Fecha</th><th scope="col">Tipo</th><th scope="col">Detalle</th><th scope="col" class="num">Entrada</th><th scope="col" class="num">Salida</th><th scope="col">Estado</th><th scope="col"><span class="vh">Acciones</span></th></tr></thead><tbody id="act-body"></tbody></table>
+          </div>
+          <div class="empty" id="act-empty" hidden>
+            <p>Aún no hay movimientos en esta cuenta.</p>
+            <a class="btn primary" href="#enviar">Hacer la primera transferencia</a>
+          </div>
+        </article>
+      </section>
+    </main>
+    <footer class="foot">
+      <span>PayMexBTC · México ⇄ Hong Kong</span>
+      <span>SPEI · FPS · Bitcoin</span>
+      <span id="foot-seq">Bloque interno —</span>
+    </footer>
+  </div>
+</div>
+
+<dialog class="drawer" id="receipt">
+  <header class="card-h"><div><h2 id="rc-title">Comprobante</h2><p class="sub" id="rc-sub"></p></div><button class="btn icon ghost" type="button" id="rc-close" aria-label="Cerrar"><svg class="ic"><use href="#i-close"/></svg></button></header>
+  <dl class="facts tall" id="rc-facts"></dl>
+  <pre class="payload" id="rc-json" tabindex="0"></pre>
+  <div class="form-actions"><button class="btn primary" type="button" id="rc-dl"><svg class="ic"><use href="#i-dl"/></svg>Descargar JSON</button></div>
+</dialog>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+/* Hallmark · genre: atmospheric · macrostructure: Workbench (app shell) · theme: Midnight (warm anchor, hue 40) · enrichment: none · nav: N3 side-rail · footer: Ft2 inline single line
+ * tone: technical-atmospheric · anchor hue: 40 · audience: investors · use: operate the MX→HK corridor
+ * Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V4
+ */
+:root {
+  color-scheme: dark;
+
+  /* Paper → ink, tinted toward hue 40 */
+  --color-paper:        oklch(14.5% 0.010 40);
+  --color-paper-2:      oklch(17.5% 0.011 40);
+  --color-paper-3:      oklch(20.5% 0.012 40);
+  --color-paper-4:      oklch(24.5% 0.013 40);
+  --color-rule:         oklch(29% 0.011 40);
+  --color-rule-strong:  oklch(40% 0.011 40);
+  --color-neutral:      oklch(64% 0.010 40);
+  --color-muted:        oklch(77% 0.008 40);
+  --color-ink:          oklch(94% 0.006 70);
+
+  /* One warm accent */
+  --color-accent:       oklch(71% 0.17 50);
+  --color-accent-ink:   oklch(19% 0.035 50);
+  --color-accent-deep:  oklch(45% 0.13 35);
+  --color-focus:        oklch(80% 0.15 60);
+
+  /* Status — always paired with icon + label */
+  --color-good:         oklch(72% 0.17 150);
+  --color-warn:         oklch(83% 0.15 82);
+  --color-crit:         oklch(66% 0.19 25);
+
+  /* Chart series — validated (dataviz validate_palette.js, dark, all-pairs, surface #1c1917) */
+  --series-1:           #338ced;
+  --series-2:           #e76624;
+  --series-3:           #00a888;
+  --series-4:           #d28e05;
+  --chart-grid:         oklch(25% 0.010 40);
+
+  /* Type — Geist display/body, Geist Mono for machine identifiers only */
+  --font-display: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-body:    "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Scale — major third (1.25) on a 14px app base */
+  --text-2xs: 0.6875rem;
+  --text-xs:  0.75rem;
+  --text-sm:  0.8125rem;
+  --text-base: 0.875rem;
+  --text-md:  1rem;
+  --text-lg:  1.25rem;
+  --text-xl:  1.5625rem;
+  --text-2xl: 1.953rem;
+  --text-3xl: 2.441rem;
+
+  /* 4pt spacing */
+  --space-3xs: 2px;
+  --space-2xs: 4px;
+  --space-xs:  8px;
+  --space-sm:  12px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  --rule-1: 1px;
+
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long:  420ms;
+}

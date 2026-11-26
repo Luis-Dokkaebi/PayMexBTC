@@ -1,0 +1,9 @@
+{
+  "scanned": "2026-11-26",
+  "framework": "vanilla HTML, no package.json; repo held only Claude Code plugin config before this build",
+  "fonts": "none before build; build introduces Geist + Geist Mono (Google Fonts, web/index.html)",
+  "palette": "none before build; build introduces OKLCH tokens in web/tokens.css",
+  "motion": "none (no motion library)",
+  "spacing": "none before build; 4pt scale in web/tokens.css",
+  "deploy": "vercel.json copies web/* to dist/ (same static pattern as the stable repo)"
+}
