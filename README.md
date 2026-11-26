@@ -35,7 +35,9 @@ python3 -m http.server -d web 8080
 
 ## Despliegue
 
-`vercel.json` copia `web/` a `dist/`. Conectar el repositorio a un proyecto de Vercel publica cada push.
+Producción: https://paymexbtc.vercel.app
+
+El proyecto `paymexbtc` en Vercel está conectado a este repositorio (`Luis-Dokkaebi/PayMexBTC`), con `main` como rama de producción: cada push a `main` redepliega producción y los pushes a otras ramas generan deployments de vista previa. `vercel.json` copia `web/` a `dist/`.
 
 ## Diseño
 
